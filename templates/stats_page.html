@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strava Activity Analysis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .scatter-plot {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Statistics by Shoe</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Shoe</th>
+                <th>Number of Runs</th>
+                <th>Average Pace (min/km)</th>
+                <th>Average Distance (km)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td>{{ item['Gear'] }}</td>
+                <td>{{ item['Number of Runs'] }}</td>
+                <td>{{ item['Average Pace'] }}</td>
+                <td>{{ item['Average Distance'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- SVG Scatter Plot -->
+    <div class="scatter-plot">
+        <h2>Shoes by their average pace</h2>
+        <img src="/static/scatter_plot.png" alt="Average pace scatter plot">
+    </div>
+
+    <!-- Box Plot -->
+    <div class="box-plot">
+        <h2>Shoes and their pace distribution</h2>
+        <img src="/static/box_plot_no_outliers.png" alt="Box Plot" />
+    </div>
+
+    <!-- Scatter Plot -->
+    <div class="scatter-plot">
+        <h2>Scatter Plot: Pace vs Distance</h2>
+        <img src="/static/pace_distance_scatter_plot.png" alt="Scatter Plot: Pace vs Distance" />
+    </div>
+
+    <a href="{{ url_for('logout') }}" style="display: block; text-align: center;">Logout</a>
+    
+</body>
+</html>

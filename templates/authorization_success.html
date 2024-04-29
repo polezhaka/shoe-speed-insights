@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authorization Successful</title>
+    <link rel="stylesheet" type="text/css" href="../../static/styles.css">
+</head>
+<body>
+    <h1>Authorization Successful!</h1>
+    <p>Welcome, {{ user_name }}!</p>
+    <p>Your athlete ID: {{ athlete_id }}</p>
+    <div id="loader" style="display: none;"></div>
+    <div class="button-container">
+        <button onclick="fetchActivities('{{ user_id }}')">Analyze my shoes performance!</button>
+    </div>
+    <div class="button-container" id="show-results-button-container" style="display: none;">
+        <button id="show-results-button" onclick="triggerRunStats('{{ athlete_id }}')"style="background-color: #fc4c02; color: white; font-weight: bold;">Show results!</button>
+    </div>
+    <script>
+    function fetchActivities(userId) {
+        // Show loader
+        document.getElementById('loader').style.display = 'block';
+
+        fetch('/fetch_activities/' + userId)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Hide loader
+                document.getElementById('loader').style.display = 'none';
+                
+                alert('Activities fetched and stored successfully!');
+                // Enable the "Show results" button
+                document.getElementById('show-results-button-container').style.display = 'block';
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+                // Hide loader in case of error
+                document.getElementById('loader').style.display = 'none';
+            });
+    }
+
+    function triggerRunStats(athleteId) {
+    // Show loader
+    document.getElementById('loader').style.display = 'block';
+    
+    // Redirect to the stats page directly
+    window.location.href = '/stats_page/' + athleteId;
+}
+    </script>
+    <div class="button-container">
+    <!-- Example of logout link in HTML template -->
+    <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+</body>
+</html>
